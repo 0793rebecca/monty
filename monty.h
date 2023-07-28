@@ -38,8 +38,11 @@ typedef struct instruction_s
 } instruction_t;
 
 /*task 0*/
-void push(Stack *sk, int intval);
-void pall(Stack *sk);
+void push(stack_t **stack, int intval);
+void pall(stack_t **stack);
+int file_procc(const char *namefile,
+		stack_t **stack);
+int byte_exec(const char *namefile);
 int main(void);
 
 #endif
