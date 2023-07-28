@@ -39,7 +39,7 @@ typedef struct instruction_s
 
 /*task 0*/
 void push(stack_t **stack, int intval);
-void pall(stack_t **stack);
+void pall(stack_t *stack);
 int file_procc(const char *namefile,
 		stack_t **stack);
 int byte_exec(const char *namefile);

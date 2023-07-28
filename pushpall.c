@@ -8,11 +8,6 @@
 
 void push(stack_t **stack, int intval)
 {
-	if (*stack == NULL)
-	{
-		fprintf(stderr, "Error: Stack overflow\n");
-		exit(EXIT_FAILURE);
-	}
 	stack_t *new_node = malloc(sizeof(stack_t));
 
 	if (new_node == NULL)
@@ -36,9 +31,9 @@ void push(stack_t **stack, int intval)
   * @stack: ponter that points to the structure of Stack
   */
 
-void pall(stack_t **stack)
+void pall(stack_t *stack)
 {
-	stack_t *current = *stack;
+	stack_t *current = stack;
 
 	while (current != NULL)
 	{
@@ -56,6 +51,11 @@ void pall(stack_t **stack)
 int file_procc(const char *namefile,
 		stack_t **stack)
 {
+	char row[100];
+	int row_num = 0;
+	char *token = strtok(row, "\t\n");
+	int intval = atoi (token);
+
 	FILE *pushpallfile = fopen(namefile, "r");
 
 	if (pushpallfile == NULL)
@@ -64,15 +64,11 @@ int file_procc(const char *namefile,
 		return (0);
 	}
 
-	char row[100];
-	int row_num = 0;
-
 	while (fgets(row, sizeof(row), pushpallfile))
 	{
 		row_num++;
-		char *token = strtok(row, "\t\n");
 
-		if (token == NULL || *token == "#")
+		if (token == NULL || *token == '#')
 		{
 			continue;
 		}
@@ -82,18 +78,16 @@ int file_procc(const char *namefile,
 
 			if (token == NULL)
 			{
-				fprintsf(stderr, "Error at row %d: usage: push integer\n", row_num);
+				fprintf(stderr, "Error at row %d: usage: push integer\n", row_num);
 				fclose(pushpallfile);
 				return (0);
 			}
-
-			int intval = atoi(token);
 
 			push(stack, intval);
 		}
 		else if (strcmp(token, "pall") == 0)
 		{
-			pall(&stack);
+			pall(*stack);
 		}
 		else
 		{
@@ -126,6 +120,7 @@ int byte_exec(const char *namefile)
 	while (stack != NULL)
 	{
 		stack_t *temp = stack;
+
 		stack = stack->next;
 		free(temp);
 	}
@@ -141,5 +136,6 @@ int main(void)
 {
 	const char *namefile = "bytecodes/00.m";
 	int readiness = byte_exec(namefile);
+
 	return (readiness);
 }
