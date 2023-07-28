@@ -46,7 +46,7 @@ void pall(stack_t *stack)
   * file_procc - builds stack from bytecode instructions
   * @namefile: file name that hold bytecode instructions
   * @stack: pointer that points to the structure of stack
-  * Return: 0 on Failure, else 1 On Success
+  * Return: EXIT_FAILURE on Failure, else EXIT_SUCCESS On Success
   */
 int file_procc(const char *namefile,
 		stack_t **stack)
@@ -80,7 +80,7 @@ int file_procc(const char *namefile,
 			{
 				fprintf(stderr, "Error at row %d: usage: push integer\n", row_num);
 				fclose(pushpallfile);
-				return (0);
+				return (EXIT_FAILURE);
 			}
 
 			push(stack, intval);
@@ -93,12 +93,12 @@ int file_procc(const char *namefile,
 		{
 			fprintf(stderr, "Error at row %d: opcode unknown: %s\n", row_num, token);
 			fclose(pushpallfile);
-			return (0);
+			return (EXIT_FAILURE);
 		}
 	}
 
 	fclose(pushpallfile);
-	return (1);
+	return (EXIT_SUCCESS);
 }
 
 /**
